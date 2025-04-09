@@ -1,7 +1,9 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, 
+from flask_cors import CORS
 import requests
 
 app = Flask(__name__)
+CORS(app) 
 
 # Gắn access token tại đây
 ACCESS_TOKEN_LIST = "82616878267f5d7c3bc8f2101911486"
@@ -33,5 +35,6 @@ def get_detail():
 
 if __name__ == "__main__":
     import os
-    port = int(os.environ.get("PORT", 8080))  # dùng port 8080 nếu không có biến PORT
+    port = int(os.environ.get("PORT", 8080))
     app.run(host="0.0.0.0", port=port)
+
