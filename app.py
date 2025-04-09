@@ -32,4 +32,6 @@ def get_detail():
     return jsonify(res.json()), res.status_code
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    import os
+    port = int(os.environ.get("PORT", 8080))  # dùng port 8080 nếu không có biến PORT
+    app.run(host="0.0.0.0", port=port)
