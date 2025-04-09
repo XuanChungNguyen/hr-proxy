@@ -3,7 +3,7 @@ import requests
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)  # Cho phép tất cả nguồn gọi API
+CORS(app)  # ✅ Cho phép GPT và client gọi API
 
 ACCESS_TOKEN_LIST = "82616878267f5d7c3bc8f2101911486"
 ACCESS_TOKEN_DETAIL = "82616878267f5d7c3bc8f2101911486"
@@ -11,10 +11,11 @@ ACCESS_TOKEN_DETAIL = "82616878267f5d7c3bc8f2101911486"
 @app.route("/api/hr", methods=["GET"])
 def get_personnel():
     filters = request.args.get("filters", "")
-    res = requests.get(
-        "https://innojsc.1office.vn/api/personnel/profile/gets",
-        params={"access_token": ACCESS_TOKEN_LIST, "filters": filters}
-    )
+    params = {
+        "access_token": ACCESS_TOKEN_LIST,
+        "filters": filters
+    }
+    res = requests.get("https://innojsc.1office.vn/api/personnel/profile/gets", params=params)
     return jsonify(res.json()), res.status_code
 
 @app.route("/api/hr-detail", methods=["GET"])
@@ -22,10 +23,11 @@ def get_detail():
     code = request.args.get("code")
     if not code:
         return jsonify({"error": "Thiếu mã nhân sự"}), 400
-    res = requests.get(
-        "https://innojsc.1office.vn/api/personnel/profile/item",
-        params={"access_token": ACCESS_TOKEN_DETAIL, "code": code}
-    )
+    params = {
+        "access_token": ACCESS_TOKEN_DETAIL,
+        "code": code
+    }
+    res = requests.get("https://innojsc.1office.vn/api/personnel/profile/item", params=params)
     return jsonify(res.json()), res.status_code
 
 if __name__ == "__main__":
